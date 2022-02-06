@@ -23,28 +23,25 @@ It takes 8 days to produce 10 items using these machines.
    
 // Complete the minTime function below.
 function minTime(machines, goal) {
-    const map = machines.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
-        var counter = goal
-        var days = 1
-        while (counter > 0){
-            map.forEach(function (key, value){
-                if (days % value == 0){
-                    counter -= key
-                }
-    
-            })
-    
-            // for (var i = 0 ; i < machines.length ; i++){
-            //     if (days % machines[i] == 0){
-            //         counter --
-            //     }
-            //     if (counter <= 0){
-            //         i = machines.length
-            //     }
-            // }
-            days ++
-    
+    machines.sort()
+    // Big Int is the key for JS
+    let maxDays = BigInt(machines[machines.length-1] * goal)
+    let minDays = BigInt(0)
+    var result = BigInt(-1)
+    while (maxDays > minDays){
+        let mid = BigInt((minDays + maxDays) /BigInt(2))
+        let unit = BigInt(0)
+        for (let machine in machines){
+            unit += mid/BigInt(machines[machine])
         }
-        return(days-1)
+        if (unit < goal) {
+            minDays = mid+BigInt(1)
+            result = mid +BigInt(1)
+        } else {
+            result = mid
+            maxDays = mid
+        }
     }
+    return result
+}
     

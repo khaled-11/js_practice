@@ -65,3 +65,41 @@ function makeAnagram(a, b) {
     })
     return((a.length + b.length) - count) 
 }
+
+/*
+ * Complete the 'makingAnagrams' function below.
+ *
+ * The function is expected to return an INTEGER.
+ * The function accepts following parameters:
+ *  1. STRING s1
+ *  2. STRING s2
+ */
+
+function makingAnagrams(s1, s2) {
+    // Write your code here
+    let map1 = new Map()
+    if (s2.length > s1.length){
+        let temp = s1
+        s1 = s2
+        s2 = temp
+    }
+    for (let i = 0 ; i < s1.length ; i++){
+        if (!map1.get(s1[i])){
+            map1.set(s1[i],1)
+        } else {
+            map1.set(s1[i],map1.get(s1[i])+1)
+        }
+    }
+    let count = 0
+    for (let i = 0 ; i < s2.length ; i++){
+        if (map1.get(s2[i]) && map1.get(s2[i]) > 0){
+            map1.set(s2[i],map1.get(s2[i])-1)
+        } else {
+            count++
+        }
+    }
+    map1.forEach(function(value,key){
+        count += value
+    })
+    return count
+}
